@@ -1,2 +1,2 @@
 # Proiect_Practica
-Aplicatie grafica pentru expunerea metricilor de sistem linux
+Aplicatie tip overlay pentru expunerea metricilor de sistem linux
