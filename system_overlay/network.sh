@@ -1,6 +1,4 @@
 #!/bin/bash
 echo "Network:"
-echo "KB/s in	   KB/s out"
-ifstat -S 1 1 | tail -1 
-
-
+echo "KB/s Download	 KB/s Upload"
+ifstat -S 1 1 | tail -1
