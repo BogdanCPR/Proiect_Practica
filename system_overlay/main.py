@@ -1,16 +1,29 @@
 import tkinter as tk
 import subprocess
 import threading
+import os
 
+os.environ['TERM'] = 'xterm'
 root = tk.Tk()
 root.overrideredirect(True)
-label_sys = tk.Label(root, text="Detalii Sistem", font=('Arial', 11), fg='green')
+
+#LABEL SPECIFICATII SISTEM
+output_spec = subprocess.check_output(['./spec.sh'])
+label_spec = tk.Label(root, text=output_spec.decode(), font=('Arial', 10), fg='green')
+label_spec.pack()
+
+
+label_sys = tk.Label(root, text="Detalii Sistem", font=('Arial', 10), fg='green')
 label_sys.pack()
-root.geometry('{}x{}+{}+{}'.format(210, 160, root.winfo_screenwidth() - 210, 50))
+
+root.geometry('{}x{}+{}+{}'.format(350, 260, root.winfo_screenwidth() - 350, 50))
 root.attributes('-topmost', True)
 
-label_net = tk.Label(root, text="Detalii Retea", font=('Arial', 11), fg='green')
-label_net.place(x=label_sys.winfo_x()+5, y=60)
+
+
+
+label_net = tk.Label(root, text="Detalii Retea", font=('Arial', 10), fg='green')
+label_net.pack()
 def update_label_sys():
 
     output_sys = subprocess.check_output(['./system_stats.sh'])
