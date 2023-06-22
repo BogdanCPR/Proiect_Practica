@@ -4,22 +4,32 @@ import threading
 
 root = tk.Tk()
 root.overrideredirect(True)
-label = tk.Label(root, text="Detalii Sistem", font=('Arial', 11), fg='green')
-label.pack()
-root.geometry('{}x{}+{}+{}'.format(210, 60, root.winfo_screenwidth() - 210, 50))
+label_sys = tk.Label(root, text="Detalii Sistem", font=('Arial', 11), fg='green')
+label_sys.pack()
+root.geometry('{}x{}+{}+{}'.format(210, 160, root.winfo_screenwidth() - 210, 50))
 root.attributes('-topmost', True)
 
+label_net = tk.Label(root, text="Detalii Retea", font=('Arial', 11), fg='green')
+label_net.place(x=label_sys.winfo_x()+5, y=60)
+def update_label_sys():
 
-def update_label():
+    output_sys = subprocess.check_output(['/home/bogdan/system_stats.sh'])
+    label_sys.config(text=output_sys.decode())
 
-    output = subprocess.check_output(['/home/bogdan/system_stats.sh'])
+    label_sys.after(500, update_label_sys)
+    label_sys.config()
+def update_label_net():
+    output_net = subprocess.check_output(['/home/bogdan/network.sh'])
+    label_net.config(text=output_net.decode())
 
-    label.config(text=output.decode())
+    label_net.after(500, update_label_net)
+    label_net.config()
 
-    label.after(500, update_label)
-    label.config()
+thread1 = threading.Thread(target=update_label_sys)
+thread2 = threading.Thread(target=update_label_net)
 
-thread = threading.Thread(target=update_label)
-thread.start()
+
+thread1.start()
+thread2.start()
 
 root.mainloop()
