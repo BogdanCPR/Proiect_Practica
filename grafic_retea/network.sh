@@ -1,6 +1,4 @@
 #!/bin/bash
-#echo "Network:"
-#echo "KB/s in	   KB/s out"
-ifstat -S 1 1 | tail -1 
+ifstat -S -T 1 1 | tail -1 | awk '{print $1/1000 "\t" $2/1000}'
 
 
