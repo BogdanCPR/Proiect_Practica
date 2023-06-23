@@ -16,7 +16,7 @@ label_spec.pack()
 label_sys = tk.Label(root, text="Detalii Sistem", font=('Arial', 10), fg='green')
 label_sys.pack()
 
-root.geometry('{}x{}+{}+{}'.format(350, 260, root.winfo_screenwidth() - 350, 50))
+root.geometry('{}x{}+{}+{}'.format(350, 260, root.winfo_screenwidth() - 400, 50))
 root.attributes('-topmost', True)
 
 
@@ -38,9 +38,21 @@ def update_label_net():
     label_net.after(500, update_label_net)
     label_net.config()
 
+def start_grafic():
+    script_path = "/home/student/PycharmProjects/graficRetea/main.py"
+    subprocess.Popen(['python',script_path])
+
+def quit_app():
+    root.quit()
+
 thread1 = threading.Thread(target=update_label_sys)
 thread2 = threading.Thread(target=update_label_net)
 
+button_graph = tk.Button(root,text="Graph",command=start_grafic)
+button_graph.pack(side='left', padx=80)
+
+button_quit = tk.Button(root,text="Quit",command=quit_app)
+button_quit.pack(side='left')
 
 thread1.start()
 thread2.start()
