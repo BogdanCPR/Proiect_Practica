@@ -3,11 +3,13 @@ import subprocess
 import threading
 import os
 
+
+
 os.environ['TERM'] = 'xterm'
 root = tk.Tk()
 root.overrideredirect(True)
 root.configure(background="#656565")
-# LABEL SPECIFICATII SISTEM
+
 output_spec = subprocess.check_output(['./spec.sh'])
 label_spec = tk.Label(root, text=output_spec.decode(), font=('Arial', 10), fg='#C0FF6B')
 label_spec.configure(background="#656565")
@@ -16,7 +18,6 @@ label_spec.pack()
 label_sys = tk.Label(root, text="Detalii Sistem", font=('Arial', 10), fg='#C0FF6B')
 label_sys.configure(background="#656565")
 label_sys.pack()
-
 
 root.geometry('{}x{}+{}+{}'.format(350, 260, root.winfo_screenwidth() - 400, 50))
 root.attributes('-topmost', True)
@@ -30,14 +31,14 @@ def stop_process(PID):
     subprocess.run(["pkill", "-P", PID])
 
 
-
 def free_cpu(PID, process_name):
     question = tk.Toplevel(root)
     question.title("Stop process?")
     question.geometry("300x100")
     question.configure(background="#656565")
 
-    label = tk.Label(question, text="Do you want to stop the process " + process_name + "?", font=('Arial', 10), fg='#C0FF6B')
+    label = tk.Label(question, text="Do you want to stop the process " + process_name + "?", font=('Arial', 10),
+                     fg='#C0FF6B')
     label.configure(background="#656565")
     label.pack(pady=10)
 
@@ -54,6 +55,7 @@ def free_cpu(PID, process_name):
     no_button = tk.Button(question, text="No", command=no, relief="groove", highlightbackground="#C0FF6B")
     no_button.pack(side='left')
     question.wait_window()
+
 
 def update_label_sys():
     output_sys = subprocess.check_output(['/home/student/PycharmProjects/System_overlay/system_stats.sh'])
@@ -86,13 +88,62 @@ def start_grafic():
 def quit_app():
     root.quit()
 
+def show_hardware():
+    hardware_window = tk.Toplevel(root)
+    hardware_window.title("Hardware Components")
+    hardware_window.geometry("580x800")
+    hardware_window.configure(background="#656565")
+
+    output_hardware = subprocess.check_output(['/home/student/PycharmProjects/System_overlay/hardware.sh'])
+    text_hardware = output_hardware.decode()
+
+    frame = tk.Frame(hardware_window)
+    frame.pack(fill="both", expand=True)
+    text_hardware_widget = tk.Text(frame, font=('Arial', 10), fg='#C0FF6B',bg="#656565", wrap="word")
+    text_hardware_widget.insert("1.0", text_hardware)
+    scrollbar = tk.Scrollbar(frame, orient="vertical")
+    text_hardware_widget.config(yscrollcommand=scrollbar.set)
+    scrollbar.config(command=text_hardware_widget.yview)
+    text_hardware_widget.pack(side="left", fill="both", expand=True)
+    scrollbar.pack(side="right", fill="y")
+
+    hardware_window.mainloop()
+
+def show_services():
+    services_window = tk.Toplevel(root)
+    services_window.title("Running Services")
+    services_window.geometry("670x500")
+    services_window.configure(background="#656565")
+
+    output_services = subprocess.check_output(['/home/student/PycharmProjects/System_overlay/services.sh'])
+    text_services = output_services.decode()
+
+    frame = tk.Frame(services_window)
+    frame.pack(fill="both", expand=True)
+    text_services_widget = tk.Text(frame, font=('Arial', 10), fg='#C0FF6B', bg="#656565", wrap="word")
+    text_services_widget.insert("1.0", text_services)
+    scrollbar = tk.Scrollbar(frame, orient="vertical")
+    text_services_widget.config(yscrollcommand=scrollbar.set)
+    scrollbar.config(command=text_services_widget.yview)
+    text_services_widget.pack(side="left", fill="both", expand=True)
+    scrollbar.pack(side="right", fill="y")
+    services_window.mainloop()
 
 thread1 = threading.Thread(target=update_label_sys)
 thread2 = threading.Thread(target=update_label_net)
 
 button_graph = tk.Button(root, text="Graph", command=start_grafic, relief="groove", highlightbackground="#C0FF6B")
 button_graph.configure(background="#D5D5D5")
-button_graph.pack(side='left', padx=80)
+button_graph.pack(side='left',padx=5)
+
+
+button_hardware = tk.Button(root, text="Hardware", command=show_hardware, relief="groove", highlightbackground="#C0FF6B")
+button_hardware.configure(background="#D5D5D5")
+button_hardware.pack(side='left',padx=10)
+
+button_services = tk.Button(root, text="Services", command=show_services, relief="groove", highlightbackground="#C0FF6B")
+button_services.configure(background="#D5D5D5")
+button_services.pack(side='left',padx=10)
 
 button_quit = tk.Button(root, text="Quit", command=quit_app, relief="groove", highlightbackground="#C0FF6B")
 button_quit.configure(background="#D5D5D5")
