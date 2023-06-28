@@ -11,7 +11,10 @@ disk="Stocare: $disk"
 
 SO=`lsb_release -a | grep Description | tr -s " \t" | sed "s/Description:\t//"`
 SO="Versiune SO: $SO"
+user=`whoami`
+
 echo $modelProcesor
 echo $memorieRAM
 echo $disk
 echo $SO
+echo "Utilizator activ: $user"
