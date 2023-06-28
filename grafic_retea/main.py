@@ -29,8 +29,8 @@ def update_data(num):
     upload_line.set_data(range(len(upload_rates)), upload_rates)
 
 
-    ax.set_xlim(0, len(download_rates))
-    ax.set_ylim(0, 100)
+    ax.set_xlim(0,50)
+    ax.set_ylim(0, 40)
     return download_line, upload_line
 
 
