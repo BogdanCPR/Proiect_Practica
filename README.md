@@ -6,3 +6,4 @@ Functionalitati:
 *Afisare componente hardware, servicii active
 *Process Manager - functionalitate de oprire a proceselor
 *Eliberare CPU - pop-up pentru oprirea procesului ce consuma cele mai multe resurse de procesor atunci cand acesta trece de 95%
+*Instalare/Dezinstalare aplicatii
